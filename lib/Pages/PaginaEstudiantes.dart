@@ -173,62 +173,98 @@ class TablaEstudiantesState extends State<TablaEstudiantes> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-  title: const Text(
-    'Perfil del Estudiante',
-    style: TextStyle(
-      fontSize: 22, // Tamaño de la fuente
-      fontWeight: FontWeight.bold, // Negrita
-      color: Colors.white, // Color del texto
-    ),
-  ),
-  backgroundColor: Colors.deepPurple, // Color de fondo del AppBar
-  elevation: 10, // Sombra para darle un efecto de elevación
-  shadowColor: Colors.black.withOpacity(0.3), // Color y opacidad de la sombra
-  flexibleSpace: Container(
-    decoration: BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topLeft,
-        end: Alignment.bottomRight,
-        colors: [Colors.deepPurple.shade700, Colors.deepPurple.shade400], // Gradiente de color
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      title: const Text(
+        'Perfil del Estudiante',
+        style: TextStyle(
+          fontSize: 22, // Tamaño de la fuente
+          fontWeight: FontWeight.bold, // Negrita
+          color: Colors.white, // Color del texto
+        ),
+      ),
+      backgroundColor: Colors.deepPurple, // Color de fondo del AppBar
+      elevation: 10, // Sombra para darle un efecto de elevación
+      shadowColor: Colors.black.withOpacity(0.3), // Color y opacidad de la sombra
+      flexibleSpace: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.deepPurple.shade700, Colors.deepPurple.shade400], // Gradiente de color
+          ),
+        ),
       ),
     ),
-  ),
-),
-      body: isLoading
-          ? Center(child: CircularProgressIndicator())
-          : user.isEmpty
-              ? Center(child: Text('No se encontraron datos del usuario.'))
-              : Padding(
-                  padding: const EdgeInsets.all(16.0),
+    body: isLoading
+        ? Center(child: CircularProgressIndicator())
+        : user.isEmpty
+            ? Center(child: Text('No se encontraron datos del usuario.'))
+            : Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Nombre: ${user['nombre']}', style: TextStyle(fontSize: 18)),
-                      Text('Correo: ${user['correo']}', style: TextStyle(fontSize: 18)),
-                      const SizedBox(height: 20),
+                      Card(
+                        margin: const EdgeInsets.only(bottom: 20),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15), // Bordes redondeados
+                        ),
+                        elevation: 5,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Nombre: ${user['nombre']}',
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(height: 10),
+                              Text(
+                                'Correo: ${user['correo']}',
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          ElevatedButton(
+                          ElevatedButton.icon(
                             onPressed: actualizarUsuario,
-                            child: const Text("Actualizar"),
-                          ),
-                          ElevatedButton(
-                            onPressed: eliminarUsuario,
+                            icon: const Icon(Icons.update, size: 18),
+                            label: const Text("Actualizar",style: TextStyle(color: Colors.white),),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.red,
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10), // Bordes redondeados
+                              ),
+                              backgroundColor: Colors.deepPurple, // Color del fondo
                             ),
-                            child: const Text("Eliminar"),
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: eliminarUsuario,
+                            icon: const Icon(Icons.delete, size: 18),
+                            label: const Text("Eliminar"),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10), // Bordes redondeados
+                              ),
+                              backgroundColor: Colors.red, // Color de fondo
+                            ),
                           ),
                         ],
                       ),
                     ],
                   ),
                 ),
-    );
-  }
+              ),
+  );
+}
 }
 
